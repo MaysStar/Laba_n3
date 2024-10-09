@@ -4,35 +4,12 @@
 
 using namespace std;
 
-double Y; // значення Y
-double x; // значення х
+double Y; 
+double x;
 double e = 0.0001; 
-double S; // значення S ( сума всіх функцій )
-double G; // перехідне значення функції 
-double fault; // похибка
-
-double CalculatingY(double Y, double x) { // визначення Y
-	x = fabs(x);
-	Y = (((1 + pow(x, 2)) / 2) * atan(x) - (x / 2));
-	return Y;
-}
-
-double CalculatingS(double Y, double x, double e) { // визначення найближчого значення S порівнянно з Y
-	int k = 1;
-	x = fabs(x);
-	while (true) {
-		G = pow(-1, k + 1) * (pow(x, 2 * k + 1)) / (4 * pow(k, 2) - 1);
-		S += G; // значення S сума всіх функцій
-
-		fault = fabs(S - Y); 
-		if (fault < e) { // перевірка щоб | S(x) – Y(x) | ( тобто похибка була менша за e
-			break;
-			
-		}
-		k += 1;
-	}
-	return S;
-}
+double S; 
+double G;
+double fault; 
 
 
 int main() {
@@ -44,10 +21,27 @@ int main() {
 	cout << endl;
 
 	if (fabs(x) > 0 && fabs(x) < 1 && e < 0.0001) {
-		Y = CalculatingY(Y, x);
-		CalculatingS(Y, x, e);
-		cout << "Y = " << Y << endl;
-		cout << "S = " << S << endl;
+		x = fabs(x);
+		Y = (((1 + pow(x, 2)) / 2) * atan(x) - (x / 2));;
+		int k = 1;
+		x = fabs(x);
+		while (true) {
+			G = pow(-1, k + 1) * (pow(x, 2 * k + 1)) / (4 * pow(k, 2) - 1);
+			S += G;
+
+			fault = fabs(S - Y);
+			if (fault < e) {
+				break;
+
+			}
+			k += 1;
+		}
+		cout << "Y = ";
+		printf("%.10f\n", Y);
+		cout << endl;
+		cout << "S = ";
+		printf("%.10f\n", S);
+		cout << endl;
 		cout << "fault = ";
 		printf("%.10f\n", fault);
 			
